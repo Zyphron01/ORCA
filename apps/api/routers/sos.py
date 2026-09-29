@@ -7,7 +7,7 @@ from typing import List, Optional
 
 from core.database import get_db
 from core.db_models import IncidentORM, VesselORM, DriftPredictionORM
-from models import IncidentStatus, IncidentType, TransmissionMedium
+from models import IncidentStatus, IncidentType, TransmissionMedium, VesselType
 from pydantic import BaseModel
 import asyncio
 
@@ -382,10 +382,20 @@ async def reset_demo(db: AsyncSession = Depends(get_db)):
     ]
     
     # Ensure vessels exist first or fallback
+    vessels_to_ensure = [
+        VesselORM(id=uuid.UUID("11111111-0000-0000-0000-000000000001"), mmsi="419000001", name="MFV Saraswati", vessel_type=VesselType.FISHING_ARTISANAL),
+        VesselORM(id=uuid.UUID("11111111-0000-0000-0000-000000000002"), mmsi="419000002", name="MFV Lakshmi Devi", vessel_type=VesselType.FISHING_MECHANISED),
+        VesselORM(id=uuid.UUID("11111111-0000-0000-0000-000000000003"), mmsi="419000003", name="MFV Durga Mata", vessel_type=VesselType.FISHING_ARTISANAL),
+    ]
+    for v in vessels_to_ensure:
+        existing = await db.get(VesselORM, v.id)
+        if not existing:
+            db.add(v)
+            
+    await db.flush()
+    
     for inc in incidents:
-        vessel = await db.get(VesselORM, inc.vessel_id)
-        if vessel:
-            db.add(inc)
+        db.add(inc)
             
     await db.commit()
     
