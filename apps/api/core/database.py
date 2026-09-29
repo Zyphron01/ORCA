@@ -12,6 +12,12 @@ from sqlalchemy.sql import text
 
 from .settings import settings
 
+connect_args = {}
+if "asyncpg" in settings.database_url:
+    connect_args["server_settings"] = {"search_path": "public,extensions"}
+elif "psycopg" in settings.database_url:
+    connect_args["options"] = "-c search_path=public,extensions"
+
 # Create the async engine
 engine = create_async_engine(
     settings.database_url,
@@ -19,6 +25,7 @@ engine = create_async_engine(
     pool_pre_ping=True,
     pool_size=5,
     max_overflow=10,
+    connect_args=connect_args,
 )
 
 # Session factory

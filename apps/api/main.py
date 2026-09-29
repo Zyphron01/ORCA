@@ -35,6 +35,8 @@ configure_logging()
 log = get_logger("ORCA.main")
 
 
+from sqlalchemy.sql import text
+
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Application startup / shutdown lifecycle."""
@@ -49,6 +51,14 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     # Create database tables (Alembic handles production migrations)
     # Graceful startup: warn if DB unavailable, don't crash
     try:
+        async with engine.begin() as conn:
+            # Ensure postgis is available in the extensions schema for Supabase
+            try:
+                await conn.execute(text("CREATE SCHEMA IF NOT EXISTS extensions;"))
+                await conn.execute(text("CREATE EXTENSION IF NOT EXISTS postgis SCHEMA extensions;"))
+            except Exception as e:
+                log.warning("Could not create extensions schema/postgis - assuming it already exists", error=str(e))
+            
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
         log.info("Database tables created/verified")
