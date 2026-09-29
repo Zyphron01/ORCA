@@ -1,7 +1,7 @@
 # Phase 10 — Capsize + Emergency Simulator Completion Report
 
 ## Objective
-Build a deterministic emergency/capsize simulation layer that represents a marine distress scenario and connects it to the existing SAR Engine, adhering to Phase 10 requirements of the SAMUDRA-AI authoritative roadmap.
+Build a deterministic emergency/capsize simulation layer that represents a marine distress scenario and connects it to the existing SAR Engine, adhering to Phase 10 requirements of the ORCA authoritative roadmap.
 
 ## Implementation Details
 

@@ -1,4 +1,4 @@
-# SAMUDRA-AI / ORCA Marine Intelligence Platform
+# ORCA Marine Intelligence Platform
 
 > **Team Bytecrats** | SIH 2026 | Problem Statement ID: **SIH26176**  
 > Theme: Space Technology | Category: Software
@@ -7,7 +7,7 @@
 
 ## What is ORCA?
 
-**ORCA** (Ocean Reasoning and Collaborative Agents) is the AI brain of the SAMUDRA-AI platform — an Agentic Marine Intelligence System designed for Indian fishermen and the Indian Coast Guard.
+**ORCA** (Ocean Reasoning and Collaborative Agents) is the AI brain of the ORCA platform — an Agentic Marine Intelligence System designed for Indian fishermen and the Indian Coast Guard.
 
 ORCA understands natural language (including Indian regional languages), plans multi-step marine intelligence tasks, delegates to specialized agents (weather, ocean, SAR, hazard), and synthesizes evidence into actionable rescue plans, safety alerts, and live maps.
 
@@ -24,7 +24,7 @@ ORCA understands natural language (including Indian regional languages), plans m
 ### 1. Clone and configure
 ```powershell
 git clone <repo-url>
-cd samudra-ai
+cd ORCA
 Copy-Item .env.example .env
 # Edit .env and fill in your LLM_API_KEY
 ```
@@ -54,7 +54,7 @@ This will:
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│              SAMUDRA-AI / ORCA Platform                      │
+│              ORCA Platform                      │
 │                                                              │
 │  ┌─────────────┐   ┌─────────────────────────────────────┐  │
 │  │ Mobile Edge │   │         Cloud Brain (ORCA)           │  │
@@ -116,7 +116,7 @@ This will:
 ## Project Structure
 
 ```
-samudra-ai/
+ORCA/
 ├── apps/api/          # FastAPI backend
 ├── apps/web/          # React Coast Guard Console
 ├── packages/          # Shared libraries
@@ -138,4 +138,4 @@ samudra-ai/
 
 ## License & Credits
 
-Team Bytecrats | SIH 2026 | SAMUDRA-AI ORCA Marine Platform
+Team Bytecrats | SIH 2026 | ORCA ORCA Marine Platform

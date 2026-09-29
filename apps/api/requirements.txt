@@ -1,4 +1,4 @@
-# SAMUDRA-AI API — Python Dependencies
+# ORCA API — Python Dependencies
 # Phase 0: Core scaffolding
 
 # ---- Web framework -----------------------------------------

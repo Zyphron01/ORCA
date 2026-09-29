@@ -1,10 +1,10 @@
-# SAMUDRA-AI / ORCA: SIH Demo Script
+# ORCA: SIH Demo Script
 
 ## 1. Opening
-*Presenter:* "Welcome. We are presenting SAMUDRA-AI, an Agentic AI Marine Intelligence Platform designed to protect and empower fishermen using edge-to-cloud reasoning. At the core is ORCA, our specialized spatial-temporal AI agent."
+*Presenter:* "Welcome. We are presenting ORCA, an Agentic AI Marine Intelligence Platform designed to protect and empower fishermen using edge-to-cloud reasoning. At the core is ORCA, our specialized spatial-temporal AI agent."
 
 ## 2. The Problem
-*Presenter:* "Fishermen face three critical issues: lack of consolidated real-time marine intelligence, accidental border crossings into IMBLs leading to arrests, and fragmented Search and Rescue (SAR) operations when disaster strikes. SAMUDRA-AI unifies all three."
+*Presenter:* "Fishermen face three critical issues: lack of consolidated real-time marine intelligence, accidental border crossings into IMBLs leading to arrests, and fragmented Search and Rescue (SAR) operations when disaster strikes. ORCA unifies all three."
 
 ## 3. Fisherman Intelligence (Part A)
 *Action: Open Fisherman UI (Browser A).*
@@ -40,4 +40,4 @@ Let's ask ORCA a question natively:
 *Presenter:* "The incident status updates universally. Rescue operations are now coordinated based on AI-driven deterministic physics, not guesswork."
 
 ## 9. Impact
-*Presenter:* "SAMUDRA-AI is not just a chatbot or a simple SOS button. It is a multi-agent intelligence layer that actively reasons over marine observations, prevents IMBL violations, and dramatically accelerates Search and Rescue. Thank you."
+*Presenter:* "ORCA is not just a chatbot or a simple SOS button. It is a multi-agent intelligence layer that actively reasons over marine observations, prevents IMBL violations, and dramatically accelerates Search and Rescue. Thank you."

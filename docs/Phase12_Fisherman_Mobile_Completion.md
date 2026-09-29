@@ -1,7 +1,7 @@
 # Phase 12 Completion Report: Fisherman Mobile UI
 
 ## Objective
-Build the actual fisherman-facing mobile application layer. Implement a native/mobile application architecture that can run on Android and communicate with the existing SAMUDRA-AI backend.
+Build the actual fisherman-facing mobile application layer. Implement a native/mobile application architecture that can run on Android and communicate with the existing ORCA backend.
 
 ## Implementation Details
 
@@ -9,7 +9,7 @@ Build the actual fisherman-facing mobile application layer. Implement a native/m
 - Scaffolded a new mobile app in `apps/mobile` using Expo / React Native.
 - Re-used `App.tsx` for main layout and basic state-based navigation (Tab routing simulation for demo/rapid-prototype phase).
 - Created mobile-specific `api/client.ts` implementing `10.0.2.2` mapping for local Android emulator, which connects natively to `http://localhost:8000` from the device.
-- Avoided copying backend intelligence (ORCA/SAR models) into the frontend. The mobile app strictly serves as a client to the centralized SAMUDRA API.
+- Avoided copying backend intelligence (ORCA/SAR models) into the frontend. The mobile app strictly serves as a client to the centralized ORCA API.
 
 ### Screens
 - **HomeScreen**: Implemented the primary fisherman dashboard. Displays current vessel state, handles "DECLARE SOS" logic communicating with the `POST /api/v1/sos/trigger` and `POST /api/v1/sos/cancel` endpoints. Includes marine/weather conditions UI placeholders.

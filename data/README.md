@@ -1,6 +1,6 @@
-# SAMUDRA-AI Marine Data
+# ORCA Marine Data
 
-This directory contains external marine datasets used by SAMUDRA-AI / ORCA.
+This directory contains external marine datasets used by ORCA.
 
 ## Raw Data
 

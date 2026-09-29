@@ -32,7 +32,7 @@ from routers.orca import router as orca_router
 from routers.sos import router as sos_router
 
 configure_logging()
-log = get_logger("samudra.main")
+log = get_logger("ORCA.main")
 
 
 @asynccontextmanager
@@ -99,7 +99,7 @@ and the Indian Coast Guard.
     version=settings.version,
     contact={
         "name": "Team Bytecrats",
-        "url": "https://github.com/samudra-ai",
+        "url": "https://github.com/ORCA",
     },
     license_info={
         "name": "SIH 2026 — Educational Use",

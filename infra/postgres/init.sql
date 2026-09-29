@@ -1,4 +1,4 @@
--- SAMUDRA-AI PostgreSQL Initialization Script
+-- ORCA PostgreSQL Initialization Script
 -- Runs once when the PostgreSQL container is first created.
 
 -- Enable PostGIS spatial extension
