@@ -1,5 +1,5 @@
 """
-SAMUDRA-AI / ORCA — Health Check Router
+ORCA — Health Check Router
 GET /api/v1/health
 """
 
@@ -22,7 +22,7 @@ router = APIRouter(prefix="/api/v1", tags=["health"])
 @router.get("/health", response_model=HealthStatus, summary="Platform health check")
 async def health_check() -> HealthStatus:
     """
-    Returns the health status of the SAMUDRA-AI platform.
+    Returns the health status of the ORCA platform.
     Checks database (PostgreSQL + PostGIS) and Redis connectivity.
     """
     db_ok = await check_db_health()

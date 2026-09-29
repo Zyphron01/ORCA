@@ -1,4 +1,4 @@
-# SAMUDRA-AI / ORCA — One-Command Local Development Starter
+﻿# SAMUDRA-AI / ORCA — One-Command Local Development Starter
 # ============================================================
 # Usage: .\scripts\dev.ps1
 # This script starts the entire SAMUDRA-AI platform locally.
@@ -45,7 +45,7 @@ $EnvFile = Join-Path $ProjectRoot ".env"
 if (-not (Test-Path $EnvFile)) {
     Write-Host "⚠️  .env file not found. Copying from .env.example..." -ForegroundColor Yellow
     Copy-Item (Join-Path $ProjectRoot ".env.example") $EnvFile
-    Write-Host "✅ Created .env — edit it to add your GEMINI_API_KEY" -ForegroundColor Green
+    Write-Host "✅ Created .env — edit it to add your LLM_API_KEY" -ForegroundColor Green
 }
 
 # ---- Docker (PostgreSQL + Redis) --------------------------------
@@ -93,7 +93,7 @@ Write-Host "🗃️  Running database setup..." -ForegroundColor Blue
 Set-Location $ProjectRoot
 $env:PYTHONPATH = "$ApiDir;$(Join-Path $ProjectRoot 'packages\shared-types')"
 
-python -c "
+python -c @"
 import asyncio, sys
 sys.path.insert(0, 'apps/api')
 sys.path.insert(0, 'packages/shared-types')
@@ -107,7 +107,7 @@ async def create_tables():
     print('Tables created successfully')
 
 asyncio.run(create_tables())
-" 2>&1
+"@ 2>&1
 Write-Host "✅ Database tables ready" -ForegroundColor Green
 
 # ---- Seed demo data ---------------------------------------------
@@ -129,7 +129,10 @@ if ($ApiOnly) {
     python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 } else {
     # Start API in background
-    Start-Process -NoNewWindow powershell -ArgumentList "-Command", "cd '$ApiDir'; `$env:PYTHONPATH = '$(Join-Path $ProjectRoot 'apps\api');$(Join-Path $ProjectRoot 'packages\shared-types')'; python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+    $apiPath = Join-Path $ProjectRoot 'apps\api'
+    $sharedPath = Join-Path $ProjectRoot 'packages\shared-types'
+    $cmdString = "cd '$ApiDir'; `$env:PYTHONPATH = '$apiPath;$sharedPath'; python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+    Start-Process -NoNewWindow powershell -ArgumentList "-Command", $cmdString
 
     # ---- Start Web Frontend -------------------------------------
     $WebDir = Join-Path $ProjectRoot "apps\web"

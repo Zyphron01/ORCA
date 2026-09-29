@@ -1,0 +1,31 @@
+{
+  "ocean_scenarios": [
+    {
+      "id": "SAFE",
+      "lat": 12.5,
+      "lon": 80.2,
+      "current_speed_ms": 0.5,
+      "current_dir_deg": 90.0,
+      "sea_temp_c": 28.5,
+      "chlorophyll_mgl": 1.2
+    },
+    {
+      "id": "MODERATE",
+      "lat": 13.0,
+      "lon": 80.0,
+      "current_speed_ms": 1.2,
+      "current_dir_deg": 45.0,
+      "sea_temp_c": 29.5,
+      "chlorophyll_mgl": 0.6
+    },
+    {
+      "id": "CYCLONE_ALERT",
+      "lat": 15.0,
+      "lon": 85.0,
+      "current_speed_ms": 3.5,
+      "current_dir_deg": 270.0,
+      "sea_temp_c": 27.5,
+      "chlorophyll_mgl": 1.5
+    }
+  ]
+}

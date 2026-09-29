@@ -1,5 +1,5 @@
 """
-SAMUDRA-AI / ORCA — ORCA Chat Router (Phase 0 Stub)
+ORCA — ORCA Chat Router (Phase 0 Stub)
 POST /api/v1/orca/chat
 GET  /api/v1/orca/session/{session_id}
 
@@ -56,80 +56,133 @@ async def orca_chat(
 ) -> ORCAResponse:
     """
     Send a natural language query to ORCA.
-
-    ORCA understands English and Indian regional languages.
-    Maintains multi-turn conversation context via session_id.
-
-    **Phase 0 stub** — returns a structured placeholder response.
-    Full LangGraph agent workflow implemented in Phase 1.
     """
-    session_id = request.session_id or uuid.uuid4()
+    import sys
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "..", "packages"))
+    
+    from orca_core.supervisor import orca_supervisor
+    from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
+    
+    try:
+        session_id = request.session_id or uuid.uuid4()
+        
+        # Check if session exists to retrieve history (stubbed for simplicity)
+        from sqlalchemy import select
+        result = await db.execute(select(ORCASessionORM).where(ORCASessionORM.id == session_id))
+        session = result.scalar_one_or_none()
+        
+        historical_messages = []
+        if session and session.messages:
+            for msg in session.messages:
+                if msg["role"] == "user":
+                    historical_messages.append(HumanMessage(content=msg["content"]))
+                elif msg["role"] == "assistant":
+                    historical_messages.append(SystemMessage(content=msg["content"]))
+        
+        if historical_messages:
+            from langchain_core.messages import AIMessage
+            historical_messages = [AIMessage(content=m.content) if isinstance(m, SystemMessage) else m for m in historical_messages]
+        
+        messages = historical_messages + [HumanMessage(content=request.message)]
+        
+        # Run LangGraph supervisor
+        initial_state = {
+            "messages": messages,
+            "session_id": str(session_id),
+            "incident_id": str(request.incident_id) if request.incident_id else None,
+            "user_query": request.message,
+            "current_location": None,
+            "current_time": datetime.utcnow().isoformat(),
+            "current_intent": None,
+            "detected_language": request.language_hint or "en",
+            "response_language": request.language_hint or "en",
+            "selected_agents": [],
+            "evidence": [],
+            "plan": [],
+            "reasoning_metadata": {},
+            "final_answer": None,
+            "confidence": 1.0,
+            "status": "in_progress",
+            "error": None
+        }
+        
+        final_state = await orca_supervisor.ainvoke(initial_state)
+            
+        final_messages = final_state.get("messages", [])
+        
+        # Extract from final state
+        response_msg = final_state.get("final_answer")
+        if not response_msg:
+            # Fallback if the tool wasn't called
+            response_msg = final_messages[-1].content if final_messages else "No response generated."
+            
+        detected_lang = final_state.get("detected_language", request.language_hint or "en")
+        evidence_dicts = final_state.get("evidence", [])
+        plan = final_state.get("plan", [])
+        
+        # Convert evidence dictionaries to EvidenceItem models
+        evidence = [EvidenceItem(**e) for e in evidence_dicts]
 
-    # Phase 0 stub evidence
-    evidence = [
-        EvidenceItem(
-            source="STUB",
-            agent="ORCA-Supervisor",
-            tool="phase_0_stub",
-            summary=(
-                "Phase 0 stub response. Full ORCA agent orchestration "
-                "will be implemented in Phase 1."
-            ),
-            is_simulated=True,
-            confidence=None,
-        )
-    ]
-
-    # Persist session
-    session_orm = ORCASessionORM(
-        id=session_id,
-        incident_id=request.incident_id,
-        user_query=request.message,
-        detected_language=request.language_hint or "en",
-        messages=[
+        # Persist session
+        session_messages = []
+        if session and session.messages:
+            session_messages = list(session.messages)
+            
+        session_messages.extend([
             {"role": "user", "content": request.message, "created_at": datetime.utcnow().isoformat()},
-        ],
-        evidence=[e.model_dump() for e in evidence],
-        status=SessionStatus.DONE,
-    )
-    db.add(session_orm)
-    await db.flush()
+            {"role": "assistant", "content": response_msg, "created_at": datetime.utcnow().isoformat()},
+        ])
+        
+        if not session:
+            session_orm = ORCASessionORM(
+                id=session_id,
+                incident_id=request.incident_id,
+                user_query=request.message,
+                detected_language=detected_lang,
+                messages=session_messages,
+                evidence=[e.model_dump() for e in evidence],
+                status=SessionStatus.DONE,
+            )
+            db.add(session_orm)
+        else:
+            session.messages = session_messages
+            session.evidence = [e.model_dump() for e in evidence]
+            session.detected_language = detected_lang
+            db.add(session)
+            
+            from sqlalchemy.orm.attributes import flag_modified
+            flag_modified(session, "messages")
+            flag_modified(session, "evidence")
+            
+        await db.flush()
 
-    demo_note = " [DEMO MODE — ORCA Phase 0 Scaffold]" if settings.enable_demo_mode else ""
-    lang_name = SUPPORTED_LANGUAGES.get(request.language_hint or "en", "English")
+        lang_name = SUPPORTED_LANGUAGES.get(detected_lang, "English")
 
-    return ORCAResponse(
-        session_id=session_id,
-        message=(
-            f"Namaste! I am ORCA — your Marine Intelligence Brain.{demo_note}\n\n"
-            f"I received your query: \"{request.message}\"\n\n"
-            f"Language: {lang_name} | Incident: {request.incident_id or 'None'}\n\n"
-            f"🚧 Full ORCA agent orchestration (LangGraph + specialized agents) "
-            f"will be operational in Phase 1. The platform backbone is now live:\n"
-            f"  ✅ PostgreSQL + PostGIS database\n"
-            f"  ✅ Redis cache\n"
-            f"  ✅ Shared data models\n"
-            f"  ✅ API scaffold\n"
-            f"  ✅ Session storage\n"
-            f"  🔜 LangGraph ORCA supervisor (Phase 1)\n"
-            f"  🔜 Specialized marine agents (Phase 2)\n"
-            f"  🔜 RK4 drift simulation (Phase 9)"
-        ),
-        detected_language=request.language_hint or "en",
-        evidence=evidence,
-        plan=[
-            {"step": 1, "agent": "ORCA-Supervisor", "action": "parse_intent", "status": "stub"},
-            {"step": 2, "agent": "HydroMeteo", "action": "fetch_weather", "status": "pending"},
-            {"step": 3, "agent": "SARPhysics", "action": "rk4_drift", "status": "pending"},
-        ],
-        suggestions=[
-            "What is the current sea condition at 12.5°N, 80.2°E?",
-            "Is vessel MH-1234 in a restricted zone?",
-            "Run drift prediction for SOS at 13.1°N, 74.8°E",
-            "Show PFZ advisory for Tamil Nadu coast today",
-        ],
-        incident_id=request.incident_id,
-    )
+        return ORCAResponse(
+            session_id=session_id,
+            message=response_msg,
+            detected_language=detected_lang,
+            evidence=evidence,
+            plan=plan,
+            suggestions=[],
+            incident_id=request.incident_id,
+            visualization=final_state.get("visualization"),
+            report=final_state.get("report")
+        )
+    except Exception as e:
+        import traceback
+        import logging
+        from fastapi import HTTPException
+        err_msg = traceback.format_exc()
+        logging.error(f"ORCA LLM Error: {err_msg}")
+        
+        # ALL LLM/provider failures (503, 404, timeout, connection reset,
+        # httpx.ReadTimeout, invalid model, 429, etc.) are surfaced as
+        # HTTP 503 to the frontend so it can cleanly reset UI state.
+        raise HTTPException(
+            status_code=503,
+            detail="ORCA is temporarily unavailable because the AI service is unavailable. Please try again."
+        )
 
 
 @router.get("/session/{session_id}", response_model=ORCASession, summary="Get ORCA session")

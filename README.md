@@ -26,7 +26,7 @@ ORCA understands natural language (including Indian regional languages), plans m
 git clone <repo-url>
 cd samudra-ai
 Copy-Item .env.example .env
-# Edit .env and fill in your GEMINI_API_KEY
+# Edit .env and fill in your LLM_API_KEY
 ```
 
 ### 2. Start everything with one command

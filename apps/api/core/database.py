@@ -1,5 +1,5 @@
 """
-SAMUDRA-AI / ORCA — Async Database Engine & Session Factory
+ORCA — Async Database Engine & Session Factory
 """
 
 from __future__ import annotations

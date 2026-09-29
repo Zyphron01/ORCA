@@ -1,5 +1,5 @@
 """
-SAMUDRA-AI / ORCA — Structured Logging Setup
+ORCA — Structured Logging Setup
 """
 
 from __future__ import annotations

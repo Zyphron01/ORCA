@@ -76,3 +76,8 @@ docs_*.txt
 docs_*.pdf
 main_ppt.txt
 mobile_tech.txt
+
+# Debug/Local artifacts
+global_traceback.txt
+results.txt
+test_script.py

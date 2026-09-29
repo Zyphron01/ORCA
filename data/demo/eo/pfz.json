@@ -1,0 +1,31 @@
+{
+  "pfz_zones": [
+    {
+      "id": "PFZ-A",
+      "lat": 12.5,
+      "lon": 80.8,
+      "chlorophyll_mgl": 1.2,
+      "sst_c": 28.5,
+      "confidence": 0.9,
+      "validity_window_hours": 24
+    },
+    {
+      "id": "PFZ-B",
+      "lat": 13.0,
+      "lon": 81.2,
+      "chlorophyll_mgl": 0.6,
+      "sst_c": 29.5,
+      "confidence": 0.6,
+      "validity_window_hours": 12
+    },
+    {
+      "id": "PFZ-C",
+      "lat": 15.0,
+      "lon": 85.0,
+      "chlorophyll_mgl": 1.5,
+      "sst_c": 27.5,
+      "confidence": 0.95,
+      "validity_window_hours": 48
+    }
+  ]
+}

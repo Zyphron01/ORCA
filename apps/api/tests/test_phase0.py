@@ -1,5 +1,5 @@
 """
-SAMUDRA-AI / ORCA — Phase 0 Tests
+ORCA — Phase 0 Tests
 ===================================
 Tests for shared types, settings, and basic API contracts.
 Run: pytest apps/api/tests/ -v

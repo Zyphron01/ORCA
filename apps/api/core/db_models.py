@@ -1,5 +1,5 @@
 """
-SAMUDRA-AI / ORCA — SQLAlchemy Database Models (ORM)
+ORCA — SQLAlchemy Database Models (ORM)
 =====================================================
 These are the DB-side table definitions.
 Pydantic models in packages/shared-types/models.py are the API schemas.
@@ -108,6 +108,8 @@ class IncidentORM(Base):
     lkp_lon: Mapped[float] = mapped_column(Float, nullable=False)
     lkp_time: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    transmission_medium: Mapped[str] = mapped_column(String(50), default="CELLULAR")
+    transmission_latency_ms: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     orca_session_id: Mapped[Optional[uuid.UUID]] = mapped_column(
         UUID(as_uuid=True), nullable=True
     )

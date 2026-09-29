@@ -1,4 +1,4 @@
-"""packages/shared-types/__init__.py — SAMUDRA-AI Shared Types"""
+"""packages/shared-types/__init__.py — ORCA Shared Types"""
 from .models import (
     # Enums
     IncidentType, IncidentStatus, VesselType, AgentTaskStatus,

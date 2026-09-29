@@ -1,0 +1,34 @@
+{
+  "weather_scenarios": [
+    {
+      "id": "SAFE",
+      "lat": 12.5,
+      "lon": 80.2,
+      "wind_speed_ms": 5.4,
+      "wind_dir_deg": 180.0,
+      "wave_height_m": 1.5,
+      "rainfall_mm": 0.0,
+      "alerts": []
+    },
+    {
+      "id": "MODERATE",
+      "lat": 13.0,
+      "lon": 80.0,
+      "wind_speed_ms": 10.0,
+      "wind_dir_deg": 120.0,
+      "wave_height_m": 2.5,
+      "rainfall_mm": 5.0,
+      "alerts": ["Moderate wind advisory"]
+    },
+    {
+      "id": "CYCLONE_ALERT",
+      "lat": 15.0,
+      "lon": 85.0,
+      "wind_speed_ms": 30.0,
+      "wind_dir_deg": 90.0,
+      "wave_height_m": 6.0,
+      "rainfall_mm": 50.0,
+      "alerts": ["CYCLONE WARNING", "Evacuate immediately"]
+    }
+  ]
+}

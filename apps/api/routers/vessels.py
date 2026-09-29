@@ -1,5 +1,5 @@
 """
-SAMUDRA-AI / ORCA — Vessels Router
+ORCA — Vessels Router
 GET  /api/v1/vessels
 GET  /api/v1/vessels/{vessel_id}
 POST /api/v1/vessels

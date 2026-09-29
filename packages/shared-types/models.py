@@ -1,5 +1,5 @@
 """
-SAMUDRA-AI / ORCA — Shared Pydantic Type Definitions
+ORCA — Shared Pydantic Type Definitions
 =====================================================
 All core data models used across the platform.
 These models are the single source of truth for API contracts.
@@ -33,6 +33,12 @@ class IncidentStatus(str, enum.Enum):
     RESOLVED = "RESOLVED"
     FALSE_ALARM = "FALSE_ALARM"
     INVESTIGATING = "INVESTIGATING"
+    
+    # Phase 10 Emergency States
+    CAPSIZED = "CAPSIZED"
+    SAR_ACTIVE = "SAR_ACTIVE"
+    RESCUED = "RESCUED"
+    CANCELLED = "CANCELLED"
 
 
 class VesselType(str, enum.Enum):
@@ -155,11 +161,17 @@ class Vessel(VesselBase):
 # ============================================================
 
 
+class TransmissionMedium(str, enum.Enum):
+    CELLULAR = "CELLULAR"
+    SATELLITE_SIMULATION = "SATELLITE_SIMULATION"
+
 class IncidentCreate(BaseModel):
     vessel_id: uuid.UUID
     incident_type: IncidentType
     lkp: GeoPoint
     description: Optional[str] = None
+    transmission_medium: TransmissionMedium = TransmissionMedium.CELLULAR
+    transmission_latency_ms: Optional[int] = None
 
 
 class Incident(BaseModel):
@@ -170,6 +182,8 @@ class Incident(BaseModel):
     lkp: GeoPoint
     lkp_time: datetime
     description: Optional[str] = None
+    transmission_medium: TransmissionMedium = TransmissionMedium.CELLULAR
+    transmission_latency_ms: Optional[int] = None
     orca_session_id: Optional[uuid.UUID] = None
     created_at: datetime
     updated_at: datetime
@@ -209,6 +223,10 @@ class ORCAQueryRequest(BaseModel):
 class EvidenceItem(BaseModel):
     """Single piece of evidence in ORCA's reasoning chain."""
 
+    type: Optional[str] = Field("generic", description="Type of evidence: sst, chlorophyll, pfz, weather, route, sar, etc.")
+    asset_id: Optional[str] = Field(None, description="ID of the visual asset")
+    value: Optional[float] = None
+    unit: Optional[str] = None
     source: str  # e.g. "MOCK-INCOIS", "GEMINI-REAL"
     agent: str
     tool: str
@@ -216,6 +234,7 @@ class EvidenceItem(BaseModel):
     data: Optional[dict[str, Any]] = None
     confidence: Optional[float] = Field(None, ge=0.0, le=1.0)
     is_simulated: bool = False
+    evidence_context: Optional[dict[str, Any]] = None
 
 
 class ORCAResponse(BaseModel):
@@ -228,6 +247,8 @@ class ORCAResponse(BaseModel):
     plan: Optional[list[dict[str, Any]]] = None
     suggestions: Optional[list[str]] = None
     incident_id: Optional[uuid.UUID] = None
+    visualization: Optional[dict[str, Any]] = None
+    report: Optional[dict[str, Any]] = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
 
@@ -412,3 +433,52 @@ class HealthStatus(BaseModel):
     version: str = "0.1.0"
     phase: str = "Phase 0 — Repository Scaffold"
     timestamp: datetime = Field(default_factory=datetime.utcnow)
+
+
+# ============================================================
+# Intelligence Report (Phase 14)
+# ============================================================
+
+
+class ReportAgentTrace(BaseModel):
+    agent_name: str
+    status: str
+    started_at: Optional[datetime] = None
+    finished_at: Optional[datetime] = None
+
+
+class ReportEnvironment(BaseModel):
+    weather_summary: Optional[str] = None
+    marine_conditions: Optional[str] = None
+    hazards: Optional[str] = None
+
+
+class IntelligenceReport(BaseModel):
+    report_id: str
+    generated_at: datetime
+    
+    # Incident Context
+    incident_id: uuid.UUID
+    vessel_id: uuid.UUID
+    vessel_name: str
+    vessel_type: str
+    incident_type: IncidentType
+    status: IncidentStatus
+    lkp: GeoPoint
+    lkp_time: datetime
+    
+    # SAR Physics
+    sar_predictions: list[DriftPoint] = []
+    search_radius_nm: Optional[float] = None
+    
+    # Multi-Agent Analysis
+    agent_traces: list[ReportAgentTrace] = []
+    
+    # Tactical
+    environment: ReportEnvironment
+    actions_taken: list[str] = []
+    
+    # Explainability
+    evidence: list[EvidenceItem] = []
+    
+    model_config = {"from_attributes": True}

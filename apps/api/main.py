@@ -1,5 +1,5 @@
 """
-SAMUDRA-AI / ORCA — FastAPI Application Entry Point
+ORCA — FastAPI Application Entry Point
 ====================================================
 Agentic AI Marine Intelligence Platform
 Team Bytecrats | SIH 2026 | PS ID: SIH26176
@@ -11,6 +11,7 @@ import sys
 import os
 
 # Make shared packages importable
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "packages", "shared-types"))
 
 from contextlib import asynccontextmanager
@@ -28,6 +29,7 @@ from routers.health import router as health_router
 from routers.vessels import router as vessels_router
 from routers.incidents import router as incidents_router
 from routers.orca import router as orca_router
+from routers.sos import router as sos_router
 
 configure_logging()
 log = get_logger("samudra.main")
@@ -37,7 +39,7 @@ log = get_logger("samudra.main")
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Application startup / shutdown lifecycle."""
     log.info(
-        "SAMUDRA-AI starting",
+        "ORCA starting",
         version=settings.version,
         env=settings.app_env,
         demo_mode=settings.enable_demo_mode,
@@ -59,7 +61,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
     yield
 
-    log.info("SAMUDRA-AI shutting down")
+    log.info("ORCA shutting down")
     await engine.dispose()
 
 
@@ -68,11 +70,11 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 # ============================================================
 
 app = FastAPI(
-    title="SAMUDRA-AI / ORCA Marine Intelligence Platform",
+    title="ORCA Marine Intelligence Platform",
     description="""
 ## ORCA — Ocean Reasoning and Collaborative Agents
 
-**SAMUDRA-AI** is an Agentic AI Marine Intelligence Platform for Indian fishermen
+**ORCA** is an Agentic AI Marine Intelligence Platform for Indian fishermen
 and the Indian Coast Guard.
 
 **ORCA** is the central Marine Intelligence Brain that:
@@ -147,10 +149,13 @@ async def value_error_handler(request: Request, exc: ValueError) -> JSONResponse
 @app.exception_handler(Exception)
 async def generic_exception_handler(request: Request, exc: Exception) -> JSONResponse:
     log.error("unhandled_exception", error=str(exc), path=request.url.path, exc_info=True)
+    import traceback
+    with open("global_traceback.txt", "w", encoding="utf-8") as f:
+        f.write(traceback.format_exc())
     return JSONResponse(
         status_code=500,
         content={
-            "detail": "Internal server error",
+            "detail": str(exc),
             "type": "internal_error",
             "path": str(request.url.path),
         },
@@ -161,10 +166,18 @@ async def generic_exception_handler(request: Request, exc: Exception) -> JSONRes
 # Routers
 # ============================================================
 
+from routers.route import router as route_router
+from routers.marine import router as marine_router
+from routers.reports import router as reports_router
+
 app.include_router(health_router)
 app.include_router(vessels_router)
 app.include_router(incidents_router)
 app.include_router(orca_router)
+app.include_router(sos_router)
+app.include_router(route_router)
+app.include_router(marine_router)
+app.include_router(reports_router)
 
 
 # ============================================================
@@ -175,7 +188,7 @@ app.include_router(orca_router)
 @app.get("/", include_in_schema=False)
 async def root():
     return {
-        "platform": "SAMUDRA-AI / ORCA Marine Intelligence Platform",
+        "platform": "ORCA Marine Intelligence Platform",
         "version": settings.version,
         "phase": "Phase 0 — Repository Scaffold",
         "team": "Bytecrats",

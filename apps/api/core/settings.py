@@ -1,5 +1,5 @@
 """
-SAMUDRA-AI / ORCA — Application Settings
+ORCA — Application Settings
 Loads configuration from .env file with sensible defaults.
 """
 
@@ -33,9 +33,10 @@ class Settings(BaseSettings):
     redis_url: str = "redis://localhost:6379/0"
     celery_broker_url: str = "redis://localhost:6379/1"
 
-    # LLM / ORCA
-    gemini_api_key: str = ""
-    orca_model: str = "gemini-2.0-flash"
+    # LLM / ORCA Configuration
+    llm_provider: str = "gemini"
+    llm_api_key: str = ""
+    llm_model: str = "gemini-1.5-flash"
     orca_max_iterations: int = 10
     orca_temperature: float = 0.2
 
@@ -60,8 +61,8 @@ class Settings(BaseSettings):
         return self.app_env == "development"
 
     @property
-    def has_gemini_key(self) -> bool:
-        return bool(self.gemini_api_key and self.gemini_api_key != "your-gemini-api-key-here")
+    def has_llm_key(self) -> bool:
+        return bool(self.llm_api_key and self.llm_api_key != "your-llm-api-key-here")
 
 
 # Singleton — import this wherever settings are needed

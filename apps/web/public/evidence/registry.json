@@ -1,0 +1,76 @@
+{
+  "assets": [
+    {
+      "id": "pfz_demo_001",
+      "type": "pfz",
+      "title": "Potential Fishing Zone - Coastal Block A",
+      "path": "/evidence/pfz/pfz_map.jpg",
+      "source": "Prototype Marine Dataset",
+      "date": "2026-09-29T10:00:00Z",
+      "is_simulated": true
+    },
+    {
+      "id": "sst_demo_001",
+      "type": "sst",
+      "title": "Sea Surface Temperature Heatmap",
+      "path": "/evidence/pfz/sst_map.jpg",
+      "source": "Prototype Marine Dataset",
+      "date": "2026-09-29T10:00:00Z",
+      "is_simulated": true
+    },
+    {
+      "id": "chl_demo_001",
+      "type": "chlorophyll",
+      "title": "Chlorophyll-a Concentration",
+      "path": "/evidence/pfz/chl_map.jpg",
+      "source": "Prototype Marine Dataset",
+      "date": "2026-09-29T10:00:00Z",
+      "is_simulated": true
+    },
+    {
+      "id": "weather_demo_001",
+      "type": "weather",
+      "title": "Wind Velocity & Pressure Gradients",
+      "path": "/evidence/weather/wind_map.svg",
+      "source": "Prototype Marine Dataset",
+      "date": "2026-09-29T10:00:00Z",
+      "is_simulated": true
+    },
+    {
+      "id": "wave_demo_001",
+      "type": "wave",
+      "title": "Significant Wave Height",
+      "path": "/evidence/weather/wave_map.svg",
+      "source": "Prototype Marine Dataset",
+      "date": "2026-09-29T10:00:00Z",
+      "is_simulated": true
+    },
+    {
+      "id": "sar_drift_001",
+      "type": "sar",
+      "title": "RK4 Drift Projection Map",
+      "path": "/evidence/sar/drift_map.svg",
+      "source": "Prototype Marine Dataset",
+      "date": "2026-09-29T10:00:00Z",
+      "is_simulated": true
+    },
+    {
+      "id": "geofence_demo_001",
+      "type": "geofence",
+      "title": "IMBL Boundary Proximity",
+      "path": "/evidence/geofence/imbl_map.svg",
+      "source": "Prototype Marine Dataset",
+      "date": "2026-09-29T10:00:00Z",
+      "is_simulated": true
+    },
+    {
+      "id": "route_demo_001",
+      "type": "route",
+      "title": "Navigational Route Safety Map",
+      "path": "/evidence/route/route_map.svg",
+      "source": "Prototype Marine Dataset",
+      "date": "2026-09-29T10:00:00Z",
+      "is_simulated": true
+    }
+  ]
+}

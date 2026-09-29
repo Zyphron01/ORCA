@@ -1,5 +1,5 @@
 """
-SAMUDRA-AI / ORCA — Demo Data Seeder
+ORCA — Demo Data Seeder
 =====================================
 Seeds the database with realistic demo vessels, incidents,
 and geofence zones for local development and demo.
@@ -147,9 +147,9 @@ DEMO_GEOFENCES = [
 # ============================================================
 
 async def seed(db: AsyncSession) -> None:
-    print("🌊 SAMUDRA-AI Demo Data Seeder")
+    print("ORCA Demo Data Seeder")
     print("=" * 50)
-    print("⚠️  ALL DATA IS SIMULATED/DEMO — NOT REAL")
+    print("ALL DATA IS SIMULATED/DEMO - NOT REAL")
     print("=" * 50)
 
     # Vessels
@@ -171,9 +171,9 @@ async def seed(db: AsyncSession) -> None:
                 is_active=True,
             )
             db.add(vessel)
-            print(f"  ✅ Vessel: {v_data['name']}")
+            print(f"  [OK] Vessel: {v_data['name']}")
         else:
-            print(f"  ⏭️  Vessel already exists: {v_data['name']}")
+            print(f"  [SKIP] Vessel already exists: {v_data['name']}")
 
     # Incidents
     for inc_data in DEMO_INCIDENTS:
@@ -181,7 +181,7 @@ async def seed(db: AsyncSession) -> None:
         if existing is None:
             incident = IncidentORM(**inc_data)
             db.add(incident)
-            print(f"  ✅ Incident: {inc_data['incident_type']} for vessel {inc_data['vessel_id']}")
+            print(f"  [OK] Incident: {inc_data['incident_type']} for vessel {inc_data['vessel_id']}")
 
     # Geofence Zones (PostGIS ST_GeomFromText)
     for zone_data in DEMO_GEOFENCES:
@@ -194,7 +194,7 @@ async def seed(db: AsyncSession) -> None:
                 text("""
                     INSERT INTO geofence_zones (id, name, zone_type, boundary, alert_buffer_nm, description, authority)
                     VALUES (
-                        :id, :name, :zone_type::zone_type_enum,
+                        :id, :name, CAST(:zone_type AS zone_type_enum),
                         ST_Multi(ST_GeomFromText(:wkt, 4326)),
                         :buffer, :description, :authority
                     )
@@ -209,10 +209,10 @@ async def seed(db: AsyncSession) -> None:
                     "authority": zone_data["authority"],
                 },
             )
-            print(f"  ✅ Geofence: {zone_data['name']}")
+            print(f"  [OK] Geofence: {zone_data['name']}")
 
     await db.commit()
-    print("\n✅ Seed complete!")
+    print("\n[OK] Seed complete!")
 
 
 async def main() -> None:

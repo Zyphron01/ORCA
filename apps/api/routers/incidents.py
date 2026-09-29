@@ -1,5 +1,5 @@
 """
-SAMUDRA-AI / ORCA — Incidents Router
+ORCA — Incidents Router
 POST  /api/v1/incidents
 GET   /api/v1/incidents
 GET   /api/v1/incidents/{id}
@@ -37,6 +37,8 @@ def _orm_to_incident(inc: IncidentORM) -> Incident:
         lkp=GeoPoint(lat=inc.lkp_lat, lon=inc.lkp_lon),
         lkp_time=inc.lkp_time,
         description=inc.description,
+        transmission_medium=inc.transmission_medium,
+        transmission_latency_ms=inc.transmission_latency_ms,
         orca_session_id=inc.orca_session_id,
         created_at=inc.created_at,
         updated_at=inc.updated_at,
