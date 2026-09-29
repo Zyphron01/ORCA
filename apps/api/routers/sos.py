@@ -343,8 +343,50 @@ async def websocket_endpoint(websocket: WebSocket):
 @router.post("/api/v1/demo/reset")
 async def reset_demo(db: AsyncSession = Depends(get_db)):
     from sqlalchemy import delete
+    from core.db_models import VesselORM
     await db.execute(delete(DriftPredictionORM))
     await db.execute(delete(IncidentORM))
+    
+    # 3 deterministic demo incidents
+    incidents = [
+        IncidentORM(
+            id=uuid.uuid4(),
+            vessel_id=uuid.UUID("11111111-0000-0000-0000-000000000001"),
+            incident_type=IncidentType.SOS,
+            status=IncidentStatus.ACTIVE,
+            lkp_lat=12.5,
+            lkp_lon=80.8,
+            lkp_time=datetime.utcnow(),
+            description="[DEMO] Fishing Vessel Engine Failure: Fishing vessel reports engine failure and requests immediate assistance."
+        ),
+        IncidentORM(
+            id=uuid.uuid4(),
+            vessel_id=uuid.UUID("11111111-0000-0000-0000-000000000002"),
+            incident_type=IncidentType.COMMS_LOSS,
+            status=IncidentStatus.ACTIVE,
+            lkp_lat=13.0,
+            lkp_lon=81.2,
+            lkp_time=datetime.utcnow(),
+            description="[DEMO] Vessel Communication Lost: Fishing vessel stopped responding to scheduled communication checks. Last known position available."
+        ),
+        IncidentORM(
+            id=uuid.uuid4(),
+            vessel_id=uuid.UUID("11111111-0000-0000-0000-000000000003"),
+            incident_type=IncidentType.SOS,  # Mapped to SOS since MEDICAL_EMERGENCY enum might not exist in db
+            status=IncidentStatus.ACTIVE,
+            lkp_lat=13.3,
+            lkp_lon=80.6,
+            lkp_time=datetime.utcnow(),
+            description="[DEMO] Medical Emergency Onboard: Crew member reported a medical emergency and requested coastal authority assistance."
+        )
+    ]
+    
+    # Ensure vessels exist first or fallback
+    for inc in incidents:
+        vessel = await db.get(VesselORM, inc.vessel_id)
+        if vessel:
+            db.add(inc)
+            
     await db.commit()
     
     await broadcast_event({

@@ -107,10 +107,30 @@ DEMO_INCIDENTS = [
         "vessel_id": uuid.UUID("11111111-0000-0000-0000-000000000001"),
         "incident_type": IncidentType.SOS,
         "status": IncidentStatus.ACTIVE,
-        "lkp_lat": 12.5167,
-        "lkp_lon": 80.1833,
+        "lkp_lat": 12.5,
+        "lkp_lon": 80.8,
         "lkp_time": datetime.utcnow() - timedelta(hours=2),
-        "description": "[DEMO] SOS signal received from MFV Saraswati. Engine failure reported.",
+        "description": "[DEMO] Fishing Vessel Engine Failure: Fishing vessel reports engine failure and requests immediate assistance.",
+    },
+    {
+        "id": uuid.UUID("22222222-0000-0000-0000-000000000002"),
+        "vessel_id": uuid.UUID("11111111-0000-0000-0000-000000000002"),
+        "incident_type": IncidentType.COMMS_LOSS,
+        "status": IncidentStatus.ACTIVE,
+        "lkp_lat": 13.0,
+        "lkp_lon": 81.2,
+        "lkp_time": datetime.utcnow() - timedelta(hours=1),
+        "description": "[DEMO] Vessel Communication Lost: Fishing vessel stopped responding to scheduled communication checks. Last known position available.",
+    },
+    {
+        "id": uuid.UUID("22222222-0000-0000-0000-000000000003"),
+        "vessel_id": uuid.UUID("11111111-0000-0000-0000-000000000003"),
+        "incident_type": IncidentType.SOS,  # Map to SOS to avoid enum errors
+        "status": IncidentStatus.ACTIVE,
+        "lkp_lat": 13.3,
+        "lkp_lon": 80.6,
+        "lkp_time": datetime.utcnow() - timedelta(minutes=30),
+        "description": "[DEMO] Medical Emergency Onboard: Crew member reported a medical emergency and requested coastal authority assistance.",
     },
 ]
 
