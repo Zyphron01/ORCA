@@ -9,6 +9,7 @@ python-multipart>=0.0.9
 # ---- Database (async SQLAlchemy + PostGIS) -----------------
 sqlalchemy[asyncio]>=2.0.30
 asyncpg>=0.29.0
+psycopg[binary]>=3.1.0
 alembic>=1.13.0
 geoalchemy2>=0.15.0
 
