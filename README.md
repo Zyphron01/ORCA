@@ -79,28 +79,21 @@ This will:
 
 ---
 
+## Endpoints & URLs
+
+- **API Base URL**: `https://orca-1jo3.onrender.com`
+- **Frontend App**: (Deployed on Vercel)
+- **API Documentation**: `https://orca-1jo3.onrender.com/docs`
+- **Mobile APK**: Accessible via EAS (Expo Application Services)
+
+---
+
 ## Build Phases
 
 | Phase | Status | Description |
 |---|---|---|
-| 0 | 🟡 In Progress | Repository, monorepo, shared types, DB, API scaffold |
-| 1 | ⬜ | ORCA supervisor, agent registry, task planning |
-| 2 | ⬜ | Tool system and mock data adapters |
-| 3 | ⬜ | Marine/weather/ocean/geospatial data layer |
-| 4 | ⬜ | Conversation memory and multi-turn context |
-| 5 | ⬜ | STT/TTS and multilingual ORCA voice interface |
-| 6 | ⬜ | Marine intelligence workflows |
-| 7 | ⬜ | Map and geospatial visualization |
-| 8 | ⬜ | Safe routing and geofencing |
-| 9 | ⬜ | SAR physics and RK4 drift simulation |
-| 10 | ⬜ | Capsize/SOS simulator |
-| 11 | ⬜ | Multi-agent SAR workflow |
-| 12 | ⬜ | Coast Guard console |
-| 13 | ⬜ | Structured intelligence reports |
-| 14 | ⬜ | Offline edge mode |
-| 15 | ⬜ | Satellite/transponder simulator |
-| 16 | ⬜ | Integrated judge demo mode |
-| 17 | ⬜ | Testing, optimization and deployment |
+| 0-16 | 🟢 Completed | Core infrastructure, agentic reasoning, SAR physics, geospatial mapping, and Coast Guard console |
+| 17 | 🟢 Completed | Production deployment to Render, Vercel, and EAS |
 
 ---
 

@@ -1,29 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
-import { Activity, Anchor, AlertTriangle, Send, FileText, CheckCircle, Clock } from 'lucide-react';
+import { Activity, Anchor, AlertTriangle, Send, FileText } from 'lucide-react';
 
-interface Incident {
-  id: string;
-  vessel_id: string;
-  incident_type: string;
-  status: string;
-  lkp_lat: number;
-  lkp_lon: number;
-  lkp_time?: string;
-  description?: string;
-  transmission_medium?: string;
-  transmission_latency_ms?: number;
-}
 
-interface SARData {
-  predictions: any[];
-  search_areas: any;
-  agent_trace?: any[];
-}
 
 export default function AuthorityOrcaPanel({ 
   selectedIncident, 
   sarData, 
-  events, 
   generateReport, 
   acknowledgeIncident, 
   resolveIncident, 
@@ -50,7 +32,7 @@ export default function AuthorityOrcaPanel({
     setOrcaResponse(null);
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/orca/chat`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/v1/orca/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 

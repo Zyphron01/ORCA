@@ -92,7 +92,7 @@ export default function FishermanApp({ onLogout }: { onLogout: () => void }) {
   const triggerSOS = async () => {
     try {
       setSosStatus('TRIGGERING...');
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/sos/trigger`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/v1/sos/trigger`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -122,7 +122,7 @@ export default function FishermanApp({ onLogout }: { onLogout: () => void }) {
       return;
     }
     try {
-      await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/sos/cancel?incident_id=${incidentId}`, {
+      await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/v1/sos/cancel?incident_id=${incidentId}`, {
         method: 'POST'
       });
       setSosActive(false);
@@ -146,7 +146,7 @@ export default function FishermanApp({ onLogout }: { onLogout: () => void }) {
     abortControllerRef.current = new AbortController();
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/orca/chat`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/v1/orca/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         signal: abortControllerRef.current.signal,

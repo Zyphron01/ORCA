@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { AlertTriangle, Activity, Radio, Search, Anchor, Shield, Power, CheckCircle, Clock, FileText } from 'lucide-react';
+import { AlertTriangle, Radio, Search, Shield, Power } from 'lucide-react';
 import MarineMap from './MarineMap';
 import IntelligenceReportModal from './IntelligenceReportModal';
 import AuthorityOrcaPanel from './AuthorityOrcaPanel';
@@ -35,7 +35,7 @@ export default function AuthorityApp({ onLogout }: { onLogout: () => void }) {
 
   const fetchIncidents = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/authority/incidents`);
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/v1/authority/incidents`);
       if (res.ok) {
         const data = await res.json();
         setIncidents(data);
@@ -47,7 +47,7 @@ export default function AuthorityApp({ onLogout }: { onLogout: () => void }) {
 
   const fetchSarData = async (incidentId: string) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/authority/incidents/${incidentId}/sar`);
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/v1/authority/incidents/${incidentId}/sar`);
       if (res.ok) {
         const data = await res.json();
         setSarData(data);
@@ -60,7 +60,7 @@ export default function AuthorityApp({ onLogout }: { onLogout: () => void }) {
   const generateReport = async () => {
     if (!selectedIncident) return;
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/authority/incidents/${selectedIncident.id}/report`);
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/v1/authority/incidents/${selectedIncident.id}/report`);
       if (res.ok) {
         const data = await res.json();
         setReportData(data);
@@ -81,7 +81,7 @@ export default function AuthorityApp({ onLogout }: { onLogout: () => void }) {
     
     const connectWs = () => {
       setWsStatus('CONNECTING');
-      const ws = new WebSocket(`${import.meta.env.VITE_WS_URL || 'ws://localhost:8000'}/ws/authority`);
+      const ws = new WebSocket(`${import.meta.env.VITE_WS_BASE_URL || 'ws://localhost:8000'}/ws/authority`);
       wsRef.current = ws;
 
       ws.onopen = () => {
@@ -139,7 +139,7 @@ export default function AuthorityApp({ onLogout }: { onLogout: () => void }) {
   const acknowledgeIncident = async () => {
     if (!selectedIncident) return;
     try {
-      await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/sos/${selectedIncident.id}/acknowledge`, { method: 'POST' });
+      await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/v1/sos/${selectedIncident.id}/acknowledge`, { method: 'POST' });
     } catch (e) {
       console.error(e);
     }
@@ -148,7 +148,7 @@ export default function AuthorityApp({ onLogout }: { onLogout: () => void }) {
   const resolveIncident = async () => {
     if (!selectedIncident) return;
     try {
-      await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/sos/${selectedIncident.id}/transition?next_state=RESOLVED`, { method: 'POST' });
+      await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/v1/sos/${selectedIncident.id}/transition?next_state=RESOLVED`, { method: 'POST' });
     } catch (e) {
       console.error(e);
     }
@@ -157,7 +157,7 @@ export default function AuthorityApp({ onLogout }: { onLogout: () => void }) {
   const cancelIncident = async () => {
     if (!selectedIncident) return;
     try {
-      await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/sos/cancel?incident_id=${selectedIncident.id}`, { method: 'POST' });
+      await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/v1/sos/cancel?incident_id=${selectedIncident.id}`, { method: 'POST' });
     } catch (e) {
       console.error(e);
     }
@@ -166,7 +166,7 @@ export default function AuthorityApp({ onLogout }: { onLogout: () => void }) {
   const handleResetDemo = async () => {
     if (!confirm('Are you sure you want to reset all demo incidents?')) return;
     try {
-      await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/demo/reset`, { method: 'POST' });
+      await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/v1/demo/reset`, { method: 'POST' });
       setSelectedIncident(null);
       setEvents([]);
       fetchIncidents();

@@ -21,11 +21,16 @@ export interface RouteRequest {
 
 class ApiClient {
   private getBaseUrl() {
-    // Return appropriate URL based on platform
-    if (Platform.OS === 'android') {
-        return BASE_URL;
+    if (process.env.EXPO_PUBLIC_API_URL) {
+        return process.env.EXPO_PUBLIC_API_URL;
     }
-    return 'http://localhost:8000/api/v1'; // For iOS/web
+    if (__DEV__) {
+      if (Platform.OS === 'android') {
+          return BASE_URL;
+      }
+      return 'http://localhost:8000/api/v1'; // For iOS/web
+    }
+    return 'https://orca-1jo3.onrender.com/api/v1';
   }
 
   async triggerSOS(req: SOSRequest) {

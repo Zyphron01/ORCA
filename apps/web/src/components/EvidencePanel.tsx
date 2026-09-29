@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { X, ExternalLink, Image as ImageIcon, Map, Thermometer, Wind, Target } from 'lucide-react';
 import EvidenceMap from './EvidenceMap';
 
