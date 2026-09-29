@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     version: str = "0.1.0"
 
     # Database
-    database_url: str = "postgresql+asyncpg://samudra:samudra@localhost:5432/samudra"
+    database_url: str = "postgresql+asyncpg://orca:orca@localhost:5432/orca"
 
     # Redis
     redis_url: str = "redis://localhost:6379/0"

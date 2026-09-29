@@ -3,28 +3,28 @@ version: "3.9"
 services:
   postgres:
     image: postgis/postgis:15-3.4
-    container_name: samudra_postgres
+    container_name: orca_postgres
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-samudra}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-samudra}
-      POSTGRES_DB: ${POSTGRES_DB:-samudra}
+      POSTGRES_USER: ${POSTGRES_USER:-orca}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-orca}
+      POSTGRES_DB: ${POSTGRES_DB:-orca}
     ports:
       - "5432:5432"
     volumes:
-      - samudra_pgdata:/var/lib/postgresql/data
+      - orca_pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-samudra}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-orca}"]
       interval: 5s
       timeout: 5s
       retries: 10
 
   redis:
     image: redis:7-alpine
-    container_name: samudra_redis
+    container_name: orca_redis
     ports:
       - "6379:6379"
     volumes:
-      - samudra_redis_data:/data
+      - orca_redis_data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
@@ -32,5 +32,5 @@ services:
       retries: 10
 
 volumes:
-  samudra_pgdata:
-  samudra_redis_data:
+  orca_pgdata:
+  orca_redis_data:
