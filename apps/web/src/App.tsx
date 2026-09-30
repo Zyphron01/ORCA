@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Shield, Anchor, Radio, Activity, Navigation, Lock, User, Key, ChevronRight } from 'lucide-react';
+import { Shield, Anchor, Radio, Activity, Navigation, Lock, User, Key, ChevronRight, Code } from 'lucide-react';
 import FishermanApp from './components/FishermanApp';
 import AuthorityApp from './components/AuthorityApp';
 
@@ -30,6 +30,21 @@ function App() {
           <p className="text-lg text-cyan-400 tracking-wider">
             AI-Powered Marine Safety & Search-and-Rescue Intelligence
           </p>
+
+          <div className="pt-6 flex justify-center">
+            <a
+              href="https://github.com/Zyphron01/ORCA"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-3 px-6 py-3 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 text-slate-100 rounded-lg transition-all shadow-lg group"
+            >
+              <Code className="w-6 h-6 group-hover:text-white transition-colors" />
+              <div className="text-left">
+                <div className="font-bold tracking-wider text-sm">VIEW SOURCE CODE</div>
+                <div className="text-[10px] text-slate-400 uppercase tracking-wider">Open-source project on GitHub</div>
+              </div>
+            </a>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
@@ -76,17 +91,6 @@ function App() {
             </button>
           </div>
 
-        </div>
-
-        <div className="mt-16 text-center">
-          <a
-            href="https://github.com/Zyphron01/ORCA"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-slate-500 hover:text-slate-300 transition-colors text-sm"
-          >
-            GitHub / Source Code
-          </a>
         </div>
       </div>
     );
