@@ -77,6 +77,17 @@ function App() {
           </div>
 
         </div>
+
+        <div className="mt-16 text-center">
+          <a
+            href="https://github.com/Zyphron01/ORCA"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-slate-500 hover:text-slate-300 transition-colors text-sm"
+          >
+            GitHub / Source Code
+          </a>
+        </div>
       </div>
     );
   }
